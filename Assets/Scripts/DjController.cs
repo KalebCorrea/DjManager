@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DjController : MonoBehaviour
 {
+
+    AudioSource unmatchedCommand;
+
+    [HideInInspector] public int secondsToBeats;
     // Start is called before the first frame update
     void Start()
     {
-        
+        unmatchedCommand = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,9 +25,14 @@ public class DjController : MonoBehaviour
     public bool GetInput(int[] commandType){
 
         //keep going with the party!
-        if (ArrayCompare(commandType, new int[]{1, 1, 1, 1})){
+        if (ArrayCompare(commandType, new int[]{1, 1, 1, 3})){
             
             Debug.Log("¡Que siga la fiesta!");
+            return true;
+        }
+        else if(ArrayCompare(commandType, new int[]{3, 3, 1, 2})){
+            
+            Debug.Log("¡Atacad!");
             return true;
         }
         else{
