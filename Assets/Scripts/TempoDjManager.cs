@@ -14,14 +14,15 @@ public class TempoDjManager : MonoBehaviour
     //Creo las variables donde irán las AudioSource del juego, es decir cada uno de los audios que ocupo.
     AudioSource[] audioSources;
     AudioSource commandMutedBeat;
-    AudioSource pataSound;
-    AudioSource chakaSound;
-    AudioSource ponSound;
-    AudioSource donSound;
+    AudioSource firstSound;
+    AudioSource secondSound;
+    AudioSource thirdSound;
+    AudioSource fourthSound;
     AudioSource mistakeSound;
     AudioSource masterBeatPatapon;
     AudioSource masterBeatChakapon;
     AudioSource masterBeatPonpon;
+    AudioSource dusk;
     
     //------------------------------------------------------------------------------------------------------------------------
     
@@ -34,10 +35,14 @@ public class TempoDjManager : MonoBehaviour
 
     //beat track variables
     [Header("Beat timing variables")]
-    [Range(0, 120)]
-    public float beatsPerMinute = 120;
+    [Range(0, 150)]
+    public float beatsPerMinute = 122;
     [Range(0, 1)]
-    public float errorMarginTime = .3f;  //Margen de error que tiene el jugador para introducir un tecleo.
+    public float errorMarginTime;  //Margen de error que tiene el jugador para introducir un tecleo.
+
+    private bool shouldStartInvokeRepeating = false; // Indica si se deben iniciar los InvokeRepeating
+    public float invokeTime;
+    public float initialDelay = 0f; // Retraso inicial
     string commandStyle; //Palabra que identifica que comando hizo el jugador.
     int[] commandType; //Array que contiene las digitaciones de comandos.
     int commandCount = 0; //contador de comandos completados
@@ -71,50 +76,49 @@ public class TempoDjManager : MonoBehaviour
     void Start()
     {
         
-
         //--------------------------------------------------------------------------------------------------------------------
         //Declaro variables relacionadas al tempo.
         allowedToBeat = true;
         hasBeatInput = false;
         inactiveBeatCount = 0;
-        float invokeTime = 60f / beatsPerMinute;
+        invokeTime = 60f / beatsPerMinute;
         djController.secondsToBeats = (int)(invokeTime * 4);
         commandType = new int[4]{0, 0, 0, 0};
         commandStyle = "caminar";
+        errorMarginTime = invokeTime/2;
         beatFallTime = errorMarginTime;
 
         //--------------------------------------------------------------------------------------------------------------------
         //Variables de los audios declaradas
         audioSources = GetComponents<AudioSource>();
         commandMutedBeat = audioSources[0];
-        pataSound = audioSources[1];
-        chakaSound = audioSources[2];
-        ponSound = audioSources[3];
-        donSound = audioSources[4];
+        firstSound = audioSources[1];
+        secondSound = audioSources[2];
+        thirdSound = audioSources[3];
+        fourthSound = audioSources[4];
         mistakeSound = audioSources[5];
         masterBeatPatapon = audioSources[6];
         masterBeatChakapon = audioSources[7];
         masterBeatPonpon = audioSources[8];
+        dusk = audioSources[9];
         //--------------------------------------------------------------------------------------------------------------------
         //Se inician los métodos que se repiten
-
-        InvokeRepeating("PlayMutedBeat", 2f, invokeTime);
-        InvokeRepeating("PlayMasterBeat", 0f, 2f);
-        InvokeRepeating("AllowBeat", 0f, invokeTime);  
+        Invoke("StartAllInvokeRepeating", initialDelay);
         //--------------------------------------------------------------------------------------------------------------------
-
+        //Se reproduce el tema principal.          
     }
 
 
+    
 
     // Update is called once per frame
     void Update()
     {
-        //Lo que está almacenado en bFT se lo resto a la variable con Time.deltaTime
-        beatFallTime -= Time.deltaTime;
+        //BeatFallTime me genera dudaaaaaaaaaaaaas
+        beatFallTime -= Time.deltaTime; //Temporizador que va hacia atrás disminuyendo el valor de beatFallTime.
         if(beatFallTime < 0f){
             allowedToBeat = false;
-            
+            Debug.Log("Bit no permitido");
 
             if(commandType[3] != 0){
                 bool commandMatched = SetInput(commandType);
@@ -175,8 +179,28 @@ public class TempoDjManager : MonoBehaviour
             fever = false;
             
         }
+
+        if (shouldStartInvokeRepeating)
+        {
+            // Iniciar todos los InvokeRepeating
+            InvokeRepeating("PlayMutedBeat", invokeTime-0.15f, invokeTime);
+            Invoke("PlaySong", invokeTime); 
+            InvokeRepeating("PlayMasterBeat", invokeTime, 2f);
+            InvokeRepeating("AllowBeat", invokeTime+0.15f, invokeTime);
+
+            // Cambiar shouldStartInvokeRepeating a false para que esto no se vuelva a ejecutar
+            shouldStartInvokeRepeating = false;
+        }
     }
 
+    void StartAllInvokeRepeating()
+    {
+       shouldStartInvokeRepeating = true;
+    }
+
+    void PlaySong(){
+            dusk.Play();           
+    }
 
     void AllowBeat(){
         beatFallTime = errorMarginTime;
@@ -186,7 +210,7 @@ public class TempoDjManager : MonoBehaviour
         }
 
         allowedToBeat = true;
-        
+        Debug.Log("Bit permitido");
         if(hasBeatInput){
             hasBeatInput = false;
         }
@@ -230,92 +254,92 @@ public class TempoDjManager : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.LeftArrow)){
                     commandType[0] = 1;
                     hasBeatInput = true;
-                    pataSound.Play();
+                    firstSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
                     commandType[0] = 2;
                     hasBeatInput = true;
-                    chakaSound.Play();
+                    secondSound.Play();
                     
                 }
                 else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
                     commandType[0] = 3; 
                     hasBeatInput = true;
-                    ponSound.Play();
+                    thirdSound.Play();
                     
                 }
                 else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
                     commandType[0] = 4;            
                     hasBeatInput = true;
-                    donSound.Play();
+                    fourthSound.Play();
                 }
             }
             else if(commandType[1] == 0){
                 if(Input.GetKeyDown(KeyCode.LeftArrow)){
                     commandType[1] = 1;
                     hasBeatInput = true;
-                    pataSound.Play();
+                    firstSound.Play();
                     
                 }
                 else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
                     commandType[1] = 2;
                     hasBeatInput = true;
-                    chakaSound.Play();
+                    secondSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
                     commandType[1] = 3; 
                     hasBeatInput = true;
-                    ponSound.Play();
+                    thirdSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
                     commandType[1] = 4;  
                     hasBeatInput = true;
-                    donSound.Play();
+                    fourthSound.Play();
                 }
             }
             else if(commandType[2] == 0){
                 if(Input.GetKeyDown(KeyCode.LeftArrow)){
                     commandType[2] = 1;
                     hasBeatInput = true;
-                    pataSound.Play();
+                    firstSound.Play();
                     
                 }
                 else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
                     commandType[2] = 2;
                     hasBeatInput = true;
-                    chakaSound.Play();
+                    secondSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
                     commandType[2] = 3; 
                     hasBeatInput = true;
-                    ponSound.Play();
+                    thirdSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
                     commandType[2] = 4;  
                     hasBeatInput = true;
-                    donSound.Play();
+                    fourthSound.Play();
                 }
             }
             else if(commandType[3] == 0){
                 if(Input.GetKeyDown(KeyCode.LeftArrow)){
                     commandType[3] = 1;
                     hasBeatInput = true;
-                    pataSound.Play();
+                    firstSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
                     commandType[3] = 2;
                     hasBeatInput = true;
-                    chakaSound.Play();
+                    secondSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
                     commandType[3] = 3; 
                     hasBeatInput = true;
-                    ponSound.Play();
+                    thirdSound.Play();
                 }
                 else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
                     commandType[3] = 4;
                     hasBeatInput = true;
-                    donSound.Play();
+                    fourthSound.Play();
                 }
             }
         }
