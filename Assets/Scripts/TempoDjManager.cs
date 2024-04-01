@@ -23,6 +23,22 @@ public class TempoDjManager : MonoBehaviour
     AudioSource masterBeatChakapon;
     AudioSource masterBeatPonpon;
     AudioSource dusk;
+    AudioSource bloque_Base1;
+    AudioSource bloque_Base2;
+    AudioSource bloque_Base3;
+    AudioSource bloque_Base4;
+    AudioSource bloque_Base5;
+    AudioSource bloque_BaseDrip1;
+    AudioSource bloque_BaseDrip2;
+    AudioSource bloque_Transitivo1;
+    AudioSource bloque_Transitivo2;
+    AudioSource bloque_Transitivo3;
+    AudioSource bloque_Transitivo4;
+    AudioSource bloque_Transitivo5;
+    AudioSource bloque_Riser;
+    AudioSource bloque_Riser2;
+
+
     
     //------------------------------------------------------------------------------------------------------------------------
     
@@ -40,6 +56,8 @@ public class TempoDjManager : MonoBehaviour
     [Range(0, 1)]
     public float errorMarginTime;  //Margen de error que tiene el jugador para introducir un tecleo.
 
+    float tiempoTranscurrido  = 0f;
+
     private bool shouldStartInvokeRepeating = false; // Indica si se deben iniciar los InvokeRepeating
     public float invokeTime;
     public float initialDelay = 0f; // Retraso inicial
@@ -50,6 +68,15 @@ public class TempoDjManager : MonoBehaviour
     float  beatFallTime;  //Cantidad de tiempo en la que no se puede ingresar un Beat
     bool lastBeatHasInput = true;    //true means no, false means yes, used with offset along with hasBeatInput
     private float beatActiveTime = 0f;  //count how long beat is active without an input
+
+    // ------------------------------------------------------------------------------------------------------------------------
+    //Variables para cambiar de Bloque Rítmico
+    
+
+    int numBloque;    //El número de bloque ritmico el cual será el encargado de reproducir 8 compases en bucle hasta pasar al siguiente bloquerítmico
+    int puntaje;      //Puntaje del jugador. El puntaje es el que determina si puede pasar al siguiente bloque rítmico
+
+    bool transitando;
 
     // ------------------------------------------------------------------------------------------------------------------------
     //fever variables
@@ -85,7 +112,7 @@ public class TempoDjManager : MonoBehaviour
         djController.secondsToBeats = (int)(invokeTime * 4);
         commandType = new int[4]{0, 0, 0, 0};
         commandStyle = "caminar";
-        errorMarginTime = invokeTime/2;
+        errorMarginTime = invokeTime;
         beatFallTime = errorMarginTime;
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -101,6 +128,26 @@ public class TempoDjManager : MonoBehaviour
         masterBeatChakapon = audioSources[7];
         masterBeatPonpon = audioSources[8];
         dusk = audioSources[9];
+        bloque_Base1 = audioSources[10];
+        bloque_Base2 = audioSources[11];
+        bloque_Base3 = audioSources[12];
+        bloque_Base4 = audioSources[13];
+        bloque_Base5 = audioSources[14];
+        bloque_BaseDrip1 = audioSources[15];
+        bloque_BaseDrip2 = audioSources[16];
+        bloque_Transitivo1 = audioSources[17];
+        bloque_Transitivo2 = audioSources[18];
+        bloque_Transitivo3 = audioSources[19];
+        bloque_Transitivo4 = audioSources[20];
+        bloque_Transitivo5 = audioSources[21];
+        bloque_Riser = audioSources[22];
+        bloque_Riser2 = audioSources[23];
+        //--------------------------------------------------------------------------------------------------------------------
+        //Variables de Bloques Rítmicos
+        numBloque = 1;
+        puntaje = 0;
+        transitando = false;
+
         //--------------------------------------------------------------------------------------------------------------------
         //Se inician los métodos que se repiten
         Invoke("StartAllInvokeRepeating", initialDelay);
@@ -118,13 +165,15 @@ public class TempoDjManager : MonoBehaviour
         beatFallTime -= Time.deltaTime; //Temporizador que va hacia atrás disminuyendo el valor de beatFallTime.
         if(beatFallTime < 0f){
             allowedToBeat = false;
-            Debug.Log("Bit no permitido");
+            
 
             if(commandType[3] != 0){
                 bool commandMatched = SetInput(commandType);
                 if(commandMatched){
                     commandCount++;
                     inactiveBeatCount = 4; //4 beats after input are inactive
+                    IncreasingPoints();
+                    Debug.Log("puntos:" + puntaje);
                 }
                 else{
                     inactiveBeatCount = 0;
@@ -137,13 +186,14 @@ public class TempoDjManager : MonoBehaviour
 
         //No puedes presionar dos veces la tecla aunque estés en el intervalo correcto del beat
         
+        /*
         if (allowedToBeat && hasBeatInput && Input.anyKeyDown){     //double beat per master beat
                 print("double beat not allowed");
                 hasBeatInput = false;
                 lastBeatHasInput = true;
                 Array.Clear(commandType, 0, commandType.Length);
         }        
-
+*/
         GetDrumInputs();
 
         if(!allowedToBeat && Input.anyKeyDown){                     //mistiming beat with master beat
@@ -183,14 +233,70 @@ public class TempoDjManager : MonoBehaviour
         if (shouldStartInvokeRepeating)
         {
             // Iniciar todos los InvokeRepeating
-            InvokeRepeating("PlayMutedBeat", invokeTime-0.15f, invokeTime);
-            Invoke("PlaySong", invokeTime); 
+            InvokeRepeating("PlayMutedBeat", 0f, invokeTime);
+            InvokeRepeating("PlayRitmicBlock", invokeTime, invokeTime*32);
+            //Invoke("PlaySong", invokeTime); 
             InvokeRepeating("PlayMasterBeat", invokeTime, 2f);
-            InvokeRepeating("AllowBeat", invokeTime+0.15f, invokeTime);
+            InvokeRepeating("AllowBeat", invokeTime, invokeTime);
 
             // Cambiar shouldStartInvokeRepeating a false para que esto no se vuelva a ejecutar
             shouldStartInvokeRepeating = false;
         }
+    }
+
+
+
+    //Metodo para incrementar los puntos, y para incrementar el número de Bloque si se consiguieron los puntos necesario
+    void IncreasingPoints(){
+        puntaje = puntaje+100;
+        
+        tiempoTranscurrido += Time.deltaTime;
+
+        if(puntaje >= 0 && puntaje < 400 && numBloque ==1){
+            numBloque = 1;  
+        }
+    //.......Bloque de código base......
+        if(puntaje >= 400 && puntaje < 800 && numBloque ==1){
+            numBloque++;
+        }
+        
+        if(numBloque == 2){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 2 && transitando == false){
+            numBloque++;
+        }
+    //.......Bloque de código base......
+        if(puntaje >= 800 && puntaje < 1200 && numBloque ==3){
+            numBloque++;
+        }
+        
+        if(numBloque == 4){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 4 && transitando == false){
+            numBloque++;
+        }
+
+    //.......Bloque de código base......
+        if(puntaje >= 1200 && puntaje < 1600 && numBloque ==5){
+            numBloque++;
+        }
+        
+        if(numBloque == 6){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 6 && transitando == false){
+            numBloque++;
+        }
+
+        
+
+
+
     }
 
     void StartAllInvokeRepeating()
@@ -202,6 +308,28 @@ public class TempoDjManager : MonoBehaviour
             dusk.Play();           
     }
 
+    void PlayRitmicBlock(){
+        if(numBloque==1){
+            bloque_Base1.Play();
+            Debug.Log("Reproduciendo bloque 1");
+        }else if(numBloque==2){
+            Debug.Log("Reproduciendo bloque 2");
+            bloque_Transitivo1.Play();
+        }else if(numBloque==3){
+            Debug.Log("Reproduciendo bloque 3");
+            bloque_Base2.Play();
+        }else if(numBloque==4){
+            bloque_Transitivo2.Play();
+        }else if(numBloque==5){
+            bloque_Base3.Play();
+        }else if(numBloque==6){
+            bloque_Riser.Play();
+        }else if(numBloque==7){
+            bloque_BaseDrip1.Play();
+        }
+        
+    }
+
     void AllowBeat(){
         beatFallTime = errorMarginTime;
 
@@ -210,7 +338,7 @@ public class TempoDjManager : MonoBehaviour
         }
 
         allowedToBeat = true;
-        Debug.Log("Bit permitido");
+        
         if(hasBeatInput){
             hasBeatInput = false;
         }
@@ -228,11 +356,11 @@ public class TempoDjManager : MonoBehaviour
         string comparador = SetCommandStyle(commandStyle);      
         
         if((inactiveBeatCount--)>0 && comparador.Equals("caminar")){
-            masterBeatPatapon.Play();
+            //masterBeatPatapon.Play();
         }else if((inactiveBeatCount--)>0 && comparador.Equals("defender")){
-            masterBeatChakapon.Play();     
+            //masterBeatChakapon.Play();     
         }else if((inactiveBeatCount--)>0 && comparador.Equals("atacar")){
-            masterBeatPonpon.Play();     
+            //masterBeatPonpon.Play();     
         }
     }
 
