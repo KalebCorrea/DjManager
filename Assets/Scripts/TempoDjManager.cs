@@ -112,7 +112,7 @@ public class TempoDjManager : MonoBehaviour
         djController.secondsToBeats = (int)(invokeTime * 4);
         commandType = new int[4]{0, 0, 0, 0};
         commandStyle = "caminar";
-        errorMarginTime = invokeTime;
+        errorMarginTime = invokeTime*0.6666f;
         beatFallTime = errorMarginTime;
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ public class TempoDjManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //BeatFallTime me genera dudaaaaaaaaaaaaas
+        
         beatFallTime -= Time.deltaTime; //Temporizador que va hacia atrás disminuyendo el valor de beatFallTime.
         if(beatFallTime < 0f){
             allowedToBeat = false;
@@ -186,14 +186,14 @@ public class TempoDjManager : MonoBehaviour
 
         //No puedes presionar dos veces la tecla aunque estés en el intervalo correcto del beat
         
-        /*
+        
         if (allowedToBeat && hasBeatInput && Input.anyKeyDown){     //double beat per master beat
                 print("double beat not allowed");
                 hasBeatInput = false;
                 lastBeatHasInput = true;
                 Array.Clear(commandType, 0, commandType.Length);
         }        
-*/
+
         GetDrumInputs();
 
         if(!allowedToBeat && Input.anyKeyDown){                     //mistiming beat with master beat
@@ -235,9 +235,8 @@ public class TempoDjManager : MonoBehaviour
             // Iniciar todos los InvokeRepeating
             InvokeRepeating("PlayMutedBeat", 0f, invokeTime);
             InvokeRepeating("PlayRitmicBlock", invokeTime, invokeTime*32);
-            //Invoke("PlaySong", invokeTime); 
             InvokeRepeating("PlayMasterBeat", invokeTime, 2f);
-            InvokeRepeating("AllowBeat", invokeTime, invokeTime);
+            InvokeRepeating("AllowBeat", invokeTime-(errorMarginTime/2), invokeTime); //Le doy un breve retraso para tener margen de error antes y después del tiempo perfecto del beat
 
             // Cambiar shouldStartInvokeRepeating a false para que esto no se vuelva a ejecutar
             shouldStartInvokeRepeating = false;
