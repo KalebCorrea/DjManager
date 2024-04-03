@@ -30,13 +30,17 @@ public class TempoDjManager : MonoBehaviour
     AudioSource bloque_Base5;
     AudioSource bloque_BaseDrip1;
     AudioSource bloque_BaseDrip2;
+    AudioSource bloque_BaseDrip3;
     AudioSource bloque_Transitivo1;
     AudioSource bloque_Transitivo2;
     AudioSource bloque_Transitivo3;
     AudioSource bloque_Transitivo4;
     AudioSource bloque_Transitivo5;
-    AudioSource bloque_Riser;
+    AudioSource bloque_Riser1;
     AudioSource bloque_Riser2;
+    AudioSource bloque_Transitivo_Drip1;
+    AudioSource bloque_Transitivo_Drip2;
+    
 
 
     
@@ -135,13 +139,16 @@ public class TempoDjManager : MonoBehaviour
         bloque_Base5 = audioSources[14];
         bloque_BaseDrip1 = audioSources[15];
         bloque_BaseDrip2 = audioSources[16];
-        bloque_Transitivo1 = audioSources[17];
-        bloque_Transitivo2 = audioSources[18];
-        bloque_Transitivo3 = audioSources[19];
-        bloque_Transitivo4 = audioSources[20];
-        bloque_Transitivo5 = audioSources[21];
-        bloque_Riser = audioSources[22];
-        bloque_Riser2 = audioSources[23];
+        bloque_BaseDrip3 = audioSources[17];
+        bloque_Transitivo1 = audioSources[18];
+        bloque_Transitivo2 = audioSources[19];
+        bloque_Transitivo3 = audioSources[20];
+        bloque_Transitivo4 = audioSources[21];
+        bloque_Transitivo5 = audioSources[22];
+        bloque_Riser1 = audioSources[23];
+        bloque_Riser2 = audioSources[24];
+        bloque_Transitivo_Drip1 = audioSources[25];
+        bloque_Transitivo_Drip2 = audioSources[26];
         //--------------------------------------------------------------------------------------------------------------------
         //Variables de Bloques Rítmicos
         numBloque = 1;
@@ -251,11 +258,11 @@ public class TempoDjManager : MonoBehaviour
         
         tiempoTranscurrido += Time.deltaTime;
 
-        if(puntaje >= 0 && puntaje < 400 && numBloque ==1){
+        if(puntaje >= 0 && puntaje < 800 && numBloque ==1){
             numBloque = 1;  
         }
     //.......Bloque de código base......
-        if(puntaje >= 400 && puntaje < 800 && numBloque ==1){
+        if(puntaje >= 800 && puntaje < 1600 && numBloque ==1){
             numBloque++;
         }
         
@@ -267,7 +274,7 @@ public class TempoDjManager : MonoBehaviour
             numBloque++;
         }
     //.......Bloque de código base......
-        if(puntaje >= 800 && puntaje < 1200 && numBloque ==3){
+        if(puntaje >= 1600 && puntaje < 2400 && numBloque ==3){
             numBloque++;
         }
         
@@ -280,7 +287,7 @@ public class TempoDjManager : MonoBehaviour
         }
 
     //.......Bloque de código base......
-        if(puntaje >= 1200 && puntaje < 1600 && numBloque ==5){
+        if(puntaje >= 2400 && puntaje < 3200 && numBloque ==5){
             numBloque++;
         }
         
@@ -292,9 +299,70 @@ public class TempoDjManager : MonoBehaviour
             numBloque++;
         }
 
+    //.......Bloque de código base......
+        if(puntaje >= 3200 && puntaje < 4000 && numBloque ==7){
+            numBloque++;
+        }
         
+        if(numBloque == 8){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 8 && transitando == false){
+            numBloque++;
+        }
+    
+    //.......Bloque de código base......
+        if(puntaje >= 4000 && puntaje < 4800 && numBloque ==9){
+            numBloque++;
+        }
+        
+        if(numBloque == 10){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 10 && transitando == false){
+            numBloque++;
+        }
 
+    //.......Bloque de código base......
+        if(puntaje >= 4800 && puntaje < 5600 && numBloque ==11){
+            numBloque++;
+        }
+        
+        if(numBloque == 12){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 12 && transitando == false){
+            numBloque++;
+        }
 
+    //.......Bloque de código base......
+        if(puntaje >= 5600 && puntaje < 6400 && numBloque ==13){
+            numBloque++;
+        }
+        
+        if(numBloque == 14){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 14 && transitando == false){
+            numBloque++;
+        }
+    
+    //.......Bloque de código base......
+        if(puntaje >= 6400 && puntaje < 7200 && numBloque ==15){
+            numBloque++;
+        }
+        
+        if(numBloque == 16){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 16 && transitando == false){
+            numBloque++;
+        }
 
     }
 
@@ -308,24 +376,98 @@ public class TempoDjManager : MonoBehaviour
     }
 
     void PlayRitmicBlock(){
-        if(numBloque==1){
-            bloque_Base1.Play();
-            Debug.Log("Reproduciendo bloque 1");
-        }else if(numBloque==2){
-            Debug.Log("Reproduciendo bloque 2");
-            bloque_Transitivo1.Play();
-        }else if(numBloque==3){
-            Debug.Log("Reproduciendo bloque 3");
-            bloque_Base2.Play();
-        }else if(numBloque==4){
-            bloque_Transitivo2.Play();
-        }else if(numBloque==5){
-            bloque_Base3.Play();
-        }else if(numBloque==6){
-            bloque_Riser.Play();
-        }else if(numBloque==7){
-            bloque_BaseDrip1.Play();
+
+        switch (numBloque)
+        {
+            case 1:
+                bloque_Base1.Play();
+                Debug.Log("Reproduciendo bloque " + numBloque);
+            break;
+
+            case 2:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo1.Play();
+            break;
+
+            case 3:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Base2.Play();
+            break;
+
+            case 4:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo2.Play();
+            break;
+
+            case 5:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Base3.Play();
+            break;
+
+            case 6:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo3.Play();
+            break;
+
+            case 7:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Base4.Play();
+            break;
+
+            case 8:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo4.Play();
+            break;
+
+            case 9:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Base5.Play();
+            break;
+
+            case 10:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo5.Play();
+            break;
+
+            case 11:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Riser1.Play();
+            break;
+
+            case 12:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_BaseDrip1.Play();
+            break;
+
+            case 13:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_BaseDrip2.Play();
+            break;
+
+            case 14:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo_Drip1.Play();
+            break;
+
+            case 15:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Riser2.Play();
+            break;
+
+            case 16:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_BaseDrip3.Play();
+            break;
+
+            case 17:
+                Debug.Log("Reproduciendo bloque " + numBloque);
+                bloque_Transitivo_Drip2.Play();
+            break;
+
+
         }
+
+        
         
     }
 
