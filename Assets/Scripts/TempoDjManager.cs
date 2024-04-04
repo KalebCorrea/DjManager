@@ -23,24 +23,23 @@ public class TempoDjManager : MonoBehaviour
     AudioSource masterBeatChakapon;
     AudioSource masterBeatPonpon;
     AudioSource dusk;
-    AudioSource bloque_Base1;
-    AudioSource bloque_Base2;
-    AudioSource bloque_Base3;
-    AudioSource bloque_Base4;
-    AudioSource bloque_Base5;
-    AudioSource bloque_BaseDrip1;
-    AudioSource bloque_BaseDrip2;
-    AudioSource bloque_BaseDrip3;
-    AudioSource bloque_Transitivo1;
-    AudioSource bloque_Transitivo2;
-    AudioSource bloque_Transitivo3;
-    AudioSource bloque_Transitivo4;
-    AudioSource bloque_Transitivo5;
-    AudioSource bloque_Riser1;
-    AudioSource bloque_Riser2;
-    AudioSource bloque_Transitivo_Drip1;
-    AudioSource bloque_Transitivo_Drip2;
-    
+    AudioSource song1;
+    AudioSource song2;
+    AudioSource song3;
+    AudioSource song4;
+    AudioSource song5;
+    AudioSource song6;
+    AudioSource song7;
+    AudioSource song8;
+    AudioSource song9;
+    AudioSource song10;
+    AudioSource song11;
+    AudioSource song12;
+    AudioSource song13;
+    AudioSource song14;
+    AudioSource song15;
+    AudioSource song16;
+    AudioSource song17;
 
 
     
@@ -132,23 +131,24 @@ public class TempoDjManager : MonoBehaviour
         masterBeatChakapon = audioSources[7];
         masterBeatPonpon = audioSources[8];
         dusk = audioSources[9];
-        bloque_Base1 = audioSources[10];
-        bloque_Base2 = audioSources[11];
-        bloque_Base3 = audioSources[12];
-        bloque_Base4 = audioSources[13];
-        bloque_Base5 = audioSources[14];
-        bloque_BaseDrip1 = audioSources[15];
-        bloque_BaseDrip2 = audioSources[16];
-        bloque_BaseDrip3 = audioSources[17];
-        bloque_Transitivo1 = audioSources[18];
-        bloque_Transitivo2 = audioSources[19];
-        bloque_Transitivo3 = audioSources[20];
-        bloque_Transitivo4 = audioSources[21];
-        bloque_Transitivo5 = audioSources[22];
-        bloque_Riser1 = audioSources[23];
-        bloque_Riser2 = audioSources[24];
-        bloque_Transitivo_Drip1 = audioSources[25];
-        bloque_Transitivo_Drip2 = audioSources[26];
+        song1 = audioSources[10];
+        song2 = audioSources[11];
+        song3 = audioSources[12];
+        song4 = audioSources[13];
+        song5 = audioSources[14];
+        song6 = audioSources[15];
+        song7 = audioSources[16];
+        song8 = audioSources[17];
+        song9 = audioSources[18];
+        song10 = audioSources[19];
+        song11 = audioSources[20];
+        song12 = audioSources[21];
+        song13 = audioSources[22];
+        song14 = audioSources[23];
+        song15 = audioSources[24];
+        song16 = audioSources[25];
+        song17 = audioSources[26];
+
         //--------------------------------------------------------------------------------------------------------------------
         //Variables de Bloques Rítmicos
         numBloque = 1;
@@ -250,44 +250,44 @@ public class TempoDjManager : MonoBehaviour
         }
     }
 
-
-
-    //Metodo para incrementar los puntos, y para incrementar el número de Bloque si se consiguieron los puntos necesario
-    void IncreasingPoints(){
-        puntaje = puntaje+100;
+    //Metodo para evolucionar la música
+    void EvolveMusic(){
         
-        tiempoTranscurrido += Time.deltaTime;
-
+        
         if(puntaje >= 0 && puntaje < 800 && numBloque ==1){
             numBloque = 1;  
         }
-    //.......Bloque de código base......
-        if(puntaje >= 800 && puntaje < 1600 && numBloque ==1){
+    //.......Bloque de código base (base-transicion)......
+        if(puntaje >= 800 && numBloque ==1){
             numBloque++;
         }
         
         if(numBloque == 2){
             transitando = !transitando;
+            Debug.Log("Transitando =" + transitando);
         }
         
         if (numBloque == 2 && transitando == false){
             numBloque++;
+            transitando = !transitando;
         }
-    //.......Bloque de código base......
-        if(puntaje >= 1600 && puntaje < 2400 && numBloque ==3){
+    //.......Bloque de código base (base-transicion)......
+        if(puntaje >= 1600 && numBloque ==3){
             numBloque++;
         }
         
         if(numBloque == 4){
             transitando = !transitando;
+            Debug.Log("Transitando =" + transitando);
         }
         
-        if (numBloque == 4 && transitando == false){
+        if (numBloque == 4 && transitando == true){
             numBloque++;
+            transitando = !transitando;
         }
 
-    //.......Bloque de código base......
-        if(puntaje >= 2400 && puntaje < 3200 && numBloque ==5){
+    //.......Bloque de código base (base-transicion)......
+        if(puntaje >= 2400 && numBloque ==5){
             numBloque++;
         }
         
@@ -297,10 +297,11 @@ public class TempoDjManager : MonoBehaviour
         
         if (numBloque == 6 && transitando == false){
             numBloque++;
+            transitando = !transitando;
         }
 
-    //.......Bloque de código base......
-        if(puntaje >= 3200 && puntaje < 4000 && numBloque ==7){
+    //.......Bloque de código base (base-transicion)......
+        if(puntaje >= 3200 && numBloque ==7){
             numBloque++;
         }
         
@@ -308,12 +309,13 @@ public class TempoDjManager : MonoBehaviour
             transitando = !transitando;
         }
         
-        if (numBloque == 8 && transitando == false){
+        if (numBloque == 8 && transitando == true){
             numBloque++;
+            transitando = !transitando;
         }
     
-    //.......Bloque de código base......
-        if(puntaje >= 4000 && puntaje < 4800 && numBloque ==9){
+    //.......Bloque de código base (base-transicion-transción)......
+        if(puntaje >= 4000 && numBloque ==9){
             numBloque++;
         }
         
@@ -323,36 +325,44 @@ public class TempoDjManager : MonoBehaviour
         
         if (numBloque == 10 && transitando == false){
             numBloque++;
+            transitando = !transitando;
         }
 
-    //.......Bloque de código base......
-        if(puntaje >= 4800 && puntaje < 5600 && numBloque ==11){
-            numBloque++;
-        }
-        
-        if(numBloque == 12){
+        if(numBloque == 11){
             transitando = !transitando;
         }
         
-        if (numBloque == 12 && transitando == false){
+        if (numBloque == 11 && transitando == true){
             numBloque++;
+            transitando = !transitando;
         }
 
-    //.......Bloque de código base......
-        if(puntaje >= 5600 && puntaje < 6400 && numBloque ==13){
+    //.......Bloque de código base (base-transicion-transición)......
+        if(puntaje >= 4800 && numBloque ==12){
             numBloque++;
         }
         
+        if(numBloque == 13){
+            transitando = !transitando;
+        }
+        
+        if (numBloque == 13 && transitando == false){
+            numBloque++;
+            transitando = !transitando;
+        }
+
         if(numBloque == 14){
             transitando = !transitando;
         }
         
-        if (numBloque == 14 && transitando == false){
+        if (numBloque == 14 && transitando == true){
             numBloque++;
+            transitando = !transitando;
         }
+        
     
-    //.......Bloque de código base......
-        if(puntaje >= 6400 && puntaje < 7200 && numBloque ==15){
+    //.......Bloque de código base (base-transicion)......
+        if(puntaje >= 5600 && numBloque ==15){
             numBloque++;
         }
         
@@ -362,8 +372,15 @@ public class TempoDjManager : MonoBehaviour
         
         if (numBloque == 16 && transitando == false){
             numBloque++;
+            transitando = !transitando;
+        
         }
 
+    }
+
+    //Metodo para incrementar los puntos, y para incrementar el número de Bloque si se consiguieron los puntos necesario
+    void IncreasingPoints(){
+        puntaje = puntaje+800;
     }
 
     void StartAllInvokeRepeating()
@@ -377,91 +394,93 @@ public class TempoDjManager : MonoBehaviour
 
     void PlayRitmicBlock(){
 
+        EvolveMusic();
+
         switch (numBloque)
         {
             case 1:
-                bloque_Base1.Play();
+                song1.Play();
                 Debug.Log("Reproduciendo bloque " + numBloque);
             break;
 
             case 2:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo1.Play();
+                song2.Play();
             break;
 
             case 3:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Base2.Play();
+                song3.Play();
             break;
 
             case 4:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo2.Play();
+                song4.Play();
             break;
 
             case 5:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Base3.Play();
+                song5.Play();
             break;
 
             case 6:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo3.Play();
+                song6.Play();
             break;
 
             case 7:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Base4.Play();
+                song7.Play();
             break;
 
             case 8:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo4.Play();
+                song8.Play();
             break;
 
             case 9:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Base5.Play();
+                song9.Play();
             break;
 
             case 10:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo5.Play();
+                song10.Play();
             break;
 
             case 11:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Riser1.Play();
+                song11.Play();
             break;
 
             case 12:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_BaseDrip1.Play();
+                song12.Play();
             break;
 
             case 13:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_BaseDrip2.Play();
+                song13.Play();
             break;
 
             case 14:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo_Drip1.Play();
+                song14.Play();
             break;
 
             case 15:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Riser2.Play();
+                song15.Play();
             break;
 
             case 16:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_BaseDrip3.Play();
+                song16.Play();
             break;
 
             case 17:
                 Debug.Log("Reproduciendo bloque " + numBloque);
-                bloque_Transitivo_Drip2.Play();
+                song17.Play();
             break;
 
 

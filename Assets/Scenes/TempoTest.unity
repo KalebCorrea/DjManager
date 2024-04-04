@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 414044948}
   - component: {fileID: 414044964}
   - component: {fileID: 414044963}
-  - component: {fileID: 414044962}
+  - component: {fileID: 414044966}
   m_Layer: 0
   m_Name: Audios
   m_TagString: Untagged
@@ -2486,23 +2486,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &414044962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414044931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 201e898ee5d001a43ac4f597fefe8cb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  djController: {fileID: 2013166473}
-  beatsPerMinute: 122
-  errorMarginTime: 0
-  invokeTime: 0
-  initialDelay: 0
 --- !u!82 &414044963
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2791,6 +2774,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &414044966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414044931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201e898ee5d001a43ac4f597fefe8cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  djController: {fileID: 2013166473}
+  beatsPerMinute: 122
+  errorMarginTime: 0
+  invokeTime: 0
+  initialDelay: 0
 --- !u!1 &1112230104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,7 +2927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6780615f2133cd4e9678ed19d7d9d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempoDjManager: {fileID: 0}
+  tempoDjManager: {fileID: 414044966}
   secondsToBeats: 0
 --- !u!4 &2013166474
 Transform:
