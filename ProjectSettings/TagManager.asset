@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: "P\xFAblico"
+    uniqueID: 352835895
+    locked: 0
