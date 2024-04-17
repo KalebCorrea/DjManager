@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class DjController : MonoBehaviour
 {
 
-    AudioSource unmatchedCommand;
+    AudioSource[] audioSources;
+    AudioSource mistakeSound;
     string commandStylus;
     int commandState;
     public TempoDjManager tempoDjManager;
@@ -15,7 +16,8 @@ public class DjController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        unmatchedCommand = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
+        mistakeSound = audioSources[0];
         commandState = 0;
         commandStylus = "";
         
@@ -45,7 +47,8 @@ public class DjController : MonoBehaviour
             Debug.Log("¡Defender!");
             return true;
         }else{
-            unmatchedCommand.Play();
+            //Si termina un comando que no hace parte de la lista falla.
+            mistakeSound.Play();
             return false;
         }
     }
@@ -67,6 +70,7 @@ public class DjController : MonoBehaviour
              return commandStylus;
              
         }else 
+        commandStylus = "fallo";
         return commandStylus;
     }
 

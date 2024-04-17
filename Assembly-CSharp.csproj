@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Good.cs" />
     <Compile Include="Assets\Scripts\TempoDjManager.cs" />
+    <Compile Include="Assets\Scripts\Gente.cs" />
     <Compile Include="Assets\Scripts\DjController.cs" />
     <Compile Include="Assets\Scripts\Tick.cs" />
   </ItemGroup>

@@ -49,6 +49,7 @@ public class TempoDjManager : MonoBehaviour
     [Header("Public references")]
     public DjController djController;
     bool allowedToBeat;
+    bool stopMistake;
 
     //------------------------------------------------------------------------------------------------------------------------
 
@@ -75,7 +76,6 @@ public class TempoDjManager : MonoBehaviour
     // ------------------------------------------------------------------------------------------------------------------------
     //Variables para cambiar de Bloque Rítmico
     
-
     int numBloque;    //El número de bloque ritmico el cual será el encargado de reproducir 8 compases en bucle hasta pasar al siguiente bloquerítmico
     int puntaje;      //Puntaje del jugador. El puntaje es el que determina si puede pasar al siguiente bloque rítmico
 
@@ -105,10 +105,10 @@ public class TempoDjManager : MonoBehaviour
     //Metodo Start donde se declaran las variables
     void Start()
     {
-        
         //--------------------------------------------------------------------------------------------------------------------
         //Declaro variables relacionadas al tempo.
         allowedToBeat = true;
+        stopMistake = false;
         hasBeatInput = false;
         inactiveBeatCount = 0;
         invokeTime = 60f / beatsPerMinute;
@@ -162,8 +162,6 @@ public class TempoDjManager : MonoBehaviour
         //Se reproduce el tema principal.          
     }
 
-
-    
 
     // Update is called once per frame
     void Update()
@@ -252,7 +250,6 @@ public class TempoDjManager : MonoBehaviour
 
     //Metodo para evolucionar la música
     void EvolveMusic(){
-        
         
         if(puntaje >= 0 && puntaje < 800 && numBloque ==1){
             numBloque = 1;  
@@ -388,9 +385,6 @@ public class TempoDjManager : MonoBehaviour
        shouldStartInvokeRepeating = true;
     }
 
-    void PlaySong(){
-            dusk.Play();           
-    }
 
     void PlayRitmicBlock(){
 
@@ -485,9 +479,6 @@ public class TempoDjManager : MonoBehaviour
 
 
         }
-
-        
-        
     }
 
     void AllowBeat(){
@@ -501,8 +492,8 @@ public class TempoDjManager : MonoBehaviour
         
         if(hasBeatInput){
             hasBeatInput = false;
-        }
 
+        }
     }
 
     void PlayMutedBeat(){
@@ -536,95 +527,97 @@ public class TempoDjManager : MonoBehaviour
         return commandStyle;
     }
 
+    
     void GetDrumInputs(){
         if(allowedToBeat == true){
             if(commandType[0] == 0){
-                if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                if(Input.GetButtonDown("Bit1")){
                     commandType[0] = 1;
                     hasBeatInput = true;
                     firstSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
+                else if(Input.GetButtonDown("Bit2")){ 
                     commandType[0] = 2;
                     hasBeatInput = true;
                     secondSound.Play();
                     
                 }
-                else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
+                else if(Input.GetButtonDown("Bit3")){ 
                     commandType[0] = 3; 
                     hasBeatInput = true;
                     thirdSound.Play();
                     
                 }
-                else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
+                else if(Input.GetButtonDown("Bit4")){ 
                     commandType[0] = 4;            
                     hasBeatInput = true;
                     fourthSound.Play();
                 }
             }
             else if(commandType[1] == 0){
-                if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                if(Input.GetButtonDown("Bit1")){
                     commandType[1] = 1;
                     hasBeatInput = true;
                     firstSound.Play();
                     
                 }
-                else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
+                else if(Input.GetButtonDown("Bit2")){ 
                     commandType[1] = 2;
                     hasBeatInput = true;
                     secondSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
+                else if(Input.GetButtonDown("Bit3")){ 
                     commandType[1] = 3; 
                     hasBeatInput = true;
                     thirdSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
+                else if(Input.GetButtonDown("Bit4")){ 
                     commandType[1] = 4;  
                     hasBeatInput = true;
                     fourthSound.Play();
                 }
+                
             }
             else if(commandType[2] == 0){
-                if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                if(Input.GetButtonDown("Bit1")){
                     commandType[2] = 1;
                     hasBeatInput = true;
                     firstSound.Play();
                     
                 }
-                else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
+                else if(Input.GetButtonDown("Bit2")){ 
                     commandType[2] = 2;
                     hasBeatInput = true;
                     secondSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
+                else if(Input.GetButtonDown("Bit3")){ 
                     commandType[2] = 3; 
                     hasBeatInput = true;
                     thirdSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
+                else if(Input.GetButtonDown("Bit4")){ 
                     commandType[2] = 4;  
                     hasBeatInput = true;
                     fourthSound.Play();
                 }
             }
             else if(commandType[3] == 0){
-                if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                if(Input.GetButtonDown("Bit1")){
                     commandType[3] = 1;
                     hasBeatInput = true;
                     firstSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.UpArrow)){ 
+                else if(Input.GetButtonDown("Bit2")){ 
                     commandType[3] = 2;
                     hasBeatInput = true;
                     secondSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.RightArrow)){ 
+                else if(Input.GetButtonDown("Bit3")){ 
                     commandType[3] = 3; 
                     hasBeatInput = true;
                     thirdSound.Play();
                 }
-                else if(Input.GetKeyDown(KeyCode.DownArrow)){ 
+                else if(Input.GetButtonDown("Bit4")){ 
                     commandType[3] = 4;
                     hasBeatInput = true;
                     fourthSound.Play();
